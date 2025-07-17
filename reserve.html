@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>予約フォーム</title>
+</head>
+<body>
+  <h2>予約フォーム</h2>
+  <form id="reserveForm">
+    <label>日付: <input type="date" name="date" required></label><br>
+    <label>時間: <input type="time" name="time" required></label><br>
+    <label>お名前: <input type="text" name="name" required></label><br>
+    <button type="submit">予約する</button>
+  </form>
+
+  <script>
+    document.getElementById("reserveForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const reservation = {
+        date: form.date.value,
+        time: form.time.value,
+        name: form.name.value
+        // + LINEのuserIdがあると完璧！
+      };
+      // IndexedDB or Firebaseへ保存処理をここに追加
+      alert("予約が完了しました！" + reservation.date + " " + reservation.time);
+    });
+  </script>
+</body>
+</html>

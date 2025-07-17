@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>予約アプリ - トップ</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <h1>ようこそ！</h1>
+  <p id="username">ログイン情報を取得しています…</p>
+  <a href="reserve.html">予約ページへ進む</a>
+
+  <script>
+    async function initLIFF() {
+      await liff.init({ liffId: "YOUR_LIFF_ID" });
+      if (!liff.isLoggedIn()) {
+        liff.login();
+      } else {
+        const profile = await liff.getProfile();
+        document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
+        // userId保存や予約連携に利用可能
+      }
+    }
+    window.onload = initLIFF;
+  </script>
+</body>
+</html>
