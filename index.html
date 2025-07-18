@@ -43,7 +43,11 @@
           }
         })
         .then(res => res.text())
-        .then(msg => console.log("登録結果:", msg));
+        .then(msg => console.log("登録結果:", msg))
+        .catch(err => {
+          console.error("送信エラー:", err);
+          alert("ユーザー情報の送信に失敗しました");
+        });
       }
     }
     window.onload = initLIFF;
