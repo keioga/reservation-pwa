@@ -29,10 +29,16 @@
         document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
         reloadCSS();
         // userId保存や予約連携に利用可能
+        //const userData = {
+        //  name: profile.displayName,         // LINE表示名（仮登録）
+        //  phone: "",                         // 電話番号は後で取得する場合は空欄
+        //  lineId: userId
+        //};
+
         const userData = {
-          name: profile.displayName,         // LINE表示名（仮登録）
-          phone: "",                         // 電話番号は後で取得する場合は空欄
-          lineId: userId
+          name: "山田太郎",
+          phone: "09012345678",
+          lineId: "abc123xyz"
         };
 
         fetch("https://script.google.com/macros/s/AKfycbyZEzbCRce3vksICC4IOr_HATqsTWcQ9kbTIyJMCjP-lyekT8X-Xe_LDi0885uJC4KXaA/exec", {
