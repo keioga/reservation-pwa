@@ -24,9 +24,26 @@
         liff.login();
       } else {
         const profile = await liff.getProfile();
+        const userId = liff.getDecodedIDToken().sub;
+
         document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
         reloadCSS();
         // userId保存や予約連携に利用可能
+        const userData = {
+          name: profile.displayName,         // LINE表示名（仮登録）
+          phone: "",                         // 電話番号は後で取得する場合は空欄
+          lineId: userId
+        };
+
+        fetch("https://script.google.com/macros/s/AKfycbyZEzbCRce3vksICC4IOr_HATqsTWcQ9kbTIyJMCjP-lyekT8X-Xe_LDi0885uJC4KXaA/exec", {
+          method: "POST",
+          body: JSON.stringify(userData),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(res => res.text())
+        .then(msg => console.log("登録結果:", msg));
       }
     }
     window.onload = initLIFF;
