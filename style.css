@@ -5,4 +5,5 @@ body{
     background : url('stuppy.png'); 
     background-repeat: no-repeat;
     background-position:bottom right;
+    background-size: 40%;
 }
