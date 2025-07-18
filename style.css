@@ -1,9 +1,10 @@
 @charset "utf-8";
 
 body{
-    background-color: #ffeaea;
+    background-color: #ffb9b9;
     background : url('stuppy.png'); 
     background-repeat: no-repeat;
     background-position:bottom right;
     background-size: 40%;
+    height: 600px;
 }
