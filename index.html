@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.01</h2>
+  <h2>レッスン予約アプリ0.02</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -24,26 +24,31 @@
       if (!liff.isLoggedIn()) {
         liff.login();
       } else {
-        //const profile = await liff.getProfile();
-        //const userId = liff.getDecodedIDToken().sub;
         const profile = await liff.getProfile();
         const idToken = liff.getDecodedIDToken();
-        const userId = idToken ? idToken.sub : "dummy-id"; // ← NULLなら仮のID
+
+        if (!idToken) {
+          console.error("IDトークン取得失敗");
+          alert("LINE IDの取得に失敗しました。再ログインをお願いします。");
+          return;
+        }
+
+        const userId = idToken.sub;
+        console.log("LINE ID:", userId);
+
+        //const profile = await liff.getProfile();
+        //const idToken = liff.getDecodedIDToken();
+        //const userId = idToken ? idToken.sub : "dummy-id"; // ← NULLなら仮のID
 
         document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
         reloadCSS();
         // userId保存や予約連携に利用可能
-        //const userData = {
-        //  name: profile.displayName,         // LINE表示名（仮登録）
-        //  phone: "",                         // 電話番号は後で取得する場合は空欄
-        //  lineId: userId
-        //};
-
         const userData = {
-          name: "山田太郎",
-          phone: "09012345678",
-          lineId: "abc123xyz"
+          name: profile.displayName,         // LINE表示名（仮登録）
+          phone: "",                         // 電話番号は後で取得する場合は空欄
+          lineId: userId
         };
+
 
         fetch("https://script.google.com/macros/s/AKfycbx9P1-F2i7CWT201Vg96d6c2mxoOeuawLk4bTbe9V5EF_ObylcH6Nyp26WSoAJZ0j-Stg/exec", {
           method: "POST",
