@@ -24,8 +24,11 @@
       if (!liff.isLoggedIn()) {
         liff.login();
       } else {
+        //const profile = await liff.getProfile();
+        //const userId = liff.getDecodedIDToken().sub;
         const profile = await liff.getProfile();
-        const userId = liff.getDecodedIDToken().sub;
+        const idToken = liff.getDecodedIDToken();
+        const userId = idToken ? idToken.sub : "dummy-id"; // ← NULLなら仮のID
 
         document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
         reloadCSS();
