@@ -54,7 +54,7 @@
           }
           return response.text(); // または response.json()
         })
-        .then(res => res.text())
+        //.then(res => res.text())
         .then(msg => console.log("登録結果:", msg))
         .catch(err => {
           console.error("送信エラー:", err);
