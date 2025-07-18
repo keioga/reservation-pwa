@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    @import url("style.css");
+  </style>
   <title>予約アプリ - トップ</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="sw.js"></script>
+  
 </head>
 <body>
   <h1>ようこそ！</h1>
@@ -19,6 +24,7 @@
       } else {
         const profile = await liff.getProfile();
         document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
+        reloadCSS();
         // userId保存や予約連携に利用可能
       }
     }
