@@ -25,16 +25,19 @@
         liff.login();
       } else {
         const profile = await liff.getProfile();
-        const idToken = liff.getDecodedIDToken();
 
-        if (!idToken) {
-          console.error("IDトークン取得失敗");
-          alert("LINE IDの取得に失敗しました。再ログインをお願いします。");
-          return;
-        }
+        setTimeout(() => {
+          const idToken = liff.getDecodedIDToken();
+          if (!idToken) {
+            alert("LINE IDの取得に失敗しました。再ログインをお願いします");
+            return;
+          }
 
-        const userId = idToken.sub;
-        console.log("LINE ID:", userId);
+          const userId = idToken.sub;
+          console.log("LINE ID:", userId);
+          // ここで fetch() などの処理へ
+        }, 500); // 0.5秒待機（必要なら1秒でもOK）
+
 
         //const profile = await liff.getProfile();
         //const idToken = liff.getDecodedIDToken();
