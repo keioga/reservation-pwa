@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.098</h2>
+  <h2>レッスン予約アプリ0.099</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -43,15 +43,16 @@
         console.log("取得したID:", userId);
 
         //ローカルストレージに保存
-        localStorage.setItem("appUserId", userId);
-        console.log("IDをローカルに保存しました");
+        // localStorage.setItem("appUserId", userId);
+        // console.log("IDをローカルに保存しました");
 
         // このIDを使って次の処理へ（例：予約画面に進む）
-        const savedId = localStorage.getItem("appUserId");
-        if (savedId) {
+        const userId = localStorage.getItem("appUserId");
+        if (userId) {
           console.log("登録済みID:", savedId);
           // proceedToReservation(savedId); // 登録済み → フォームスキップ
         } else {
+          console.log("遷移します");
           window.location.href = "register.html";
         }
 
