@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.097</h2>
+  <h2>レッスン予約アプリ0.098</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -52,7 +52,7 @@
           console.log("登録済みID:", savedId);
           // proceedToReservation(savedId); // 登録済み → フォームスキップ
         } else {
-          // showRegistrationForm(); // 初回と判定 → 登録画面を表示
+          window.location.href = "register.html";
         }
 
       })

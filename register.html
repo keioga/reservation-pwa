@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ユーザー情報登録</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <div id="registerArea" style="display: none;">
+    <p id="greeting"></p>
+    <input type="text" id="phone" placeholder="電話番号を入力してください">
+    <button onclick="submitUserInfo()">登録する</button>
+  </div>
+
+  <div id="alreadyRegistered" style="display: none;">
+    <p>登録済みユーザーとして確認されました</p>
+  </div>
+
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbx9P1-F2i7CWT201Vg96d6c2mxoOeuawLk4bTbe9V5EF_ObylcH6Nyp26WSoAJZ0j-Stg/exec"; // ここに本番URLを入れてください
+
+    async function initLIFF() {
+      await liff.init({ liffId: "2007774059-A0qJR1Gw", withLoginProcess: true });
+      if (!liff.isLoggedIn()) {
+        liff.login();
+        return;
+      }
+
+      const savedId = localStorage.getItem("appUserId");
+      if (savedId) {
+        document.getElementById("alreadyRegistered").style.display = "block";
+        return;
+      }
+
+      const profile = await liff.getProfile();
+      document.getElementById("greeting").innerText = `${profile.displayName} さん、情報の登録をお願いします`;
+      document.getElementById("registerArea").style.display = "block";
+    }
+
+    function submitUserInfo() {
+      const phone = document.getElementById("phone").value;
+      if (!phone) {
+        alert("電話番号を入力してください");
+        return;
+      }
+
+      liff.getProfile().then(profile => {
+        fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({ name: profile.displayName, phone: phone }),
+          headers: { "Content-Type": "text/plain" } // CORS回避！
+        })
+        .then(res => res.json())
+        .then(data => {
+          const userId = data.userId;
+          localStorage.setItem("appUserId", userId);
+          alert("登録が完了しました！");
+          location.reload();
+        })
+        .catch(err => {
+          console.error("送信エラー:", err);
+          alert("登録に失敗しました");
+        });
+      });
+    }
+
+    window.onload = initLIFF;
+  </script>
+</body>
+</html>
