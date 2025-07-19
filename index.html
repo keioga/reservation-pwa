@@ -24,59 +24,52 @@
       
       if (!liff.isLoggedIn()) {
         liff.login();
-      } else {
-        const profile = await liff.getProfile();
-
-        const rawToken = liff.getIDToken();
-        console.log("生トークン:", rawToken);
-        setTimeout(() => {
-          const idToken = liff.getDecodedIDToken();
-          if (!idToken) {
-            alert("LINE IDの取得に失敗しました。再ログインをお願いします");
-            return;
-          }
-
-          const userId = idToken.sub;
-          console.log("LINE ID:", userId);
-          // ここで fetch() などの処理へ
-        }, 500); // 0.5秒待機（必要なら1秒でもOK）
-
-
-        //const profile = await liff.getProfile();
-        //const idToken = liff.getDecodedIDToken();
-        //const userId = idToken ? idToken.sub : "dummy-id"; // ← NULLなら仮のID
-
-        document.getElementById("username").innerText = profile.displayName + " さん、ようこそ！";
-        reloadCSS();
-        // userId保存や予約連携に利用可能
-        const userData = {
-          name: profile.displayName,         // LINE表示名（仮登録）
-          phone: "",                         // 電話番号は後で取得する場合は空欄
-          lineId: userId
-        };
-
-
-        fetch("https://script.google.com/macros/s/AKfycbx9P1-F2i7CWT201Vg96d6c2mxoOeuawLk4bTbe9V5EF_ObylcH6Nyp26WSoAJZ0j-Stg/exec", {
-          method: "POST",
-          body: JSON.stringify(userData),
-          headers: {
-            "Content-Type": "text/plain"
-          }
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("サーバーエラー: " + response.status);
-          }
-          return response.text(); // または response.json()
-        })
-        //.then(res => res.text())
-        .then(msg => console.log("登録結果:", msg))
-        .catch(err => {
-          console.error("送信エラー:", err);
-          alert("ユーザー情報の送信に失敗しました");
-        });
+        return;
       }
+      
+      const savedId = localStorage.getItem("appUserId");
+
+      if (savedId) {
+        console.log("登録済みID:", savedId);
+        proceedToReservation(); // ← 登録済みと判定して次へ
+        return;
+      }
+
+      const profile = await liff.getProfile();
+
+      const userData = {
+        name: profile.displayName,         // LINE表示名（仮登録）
+        phone: "",                         // 電話番号は後で取得する場合は空欄
+        mode: "register"
+      };
+
+
+      fetch("https://script.google.com/macros/s/AKfycbx9P1-F2i7CWT201Vg96d6c2mxoOeuawLk4bTbe9V5EF_ObylcH6Nyp26WSoAJZ0j-Stg/exec", {
+        method: "POST",
+        body: JSON.stringify(userData),
+        headers: {
+          "Content-Type": "text/plain"
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("サーバーエラー: " + response.status);
+        }
+        return response.text(); // または response.json()
+      })
+      .then(res => res.json()) // GAS側でIDをJSONで返すようにする
+      .then(data => {
+        const issuedId = data.userId;
+        localStorage.setItem("appUserId", issuedId); // ← ローカル保存
+        console.log("新しいIDを保存:", issuedId);
+        proceedToReservation(); // ← 登録完了後に次へ
+      })
+      .catch(err => {
+        console.error("登録エラー:", err);
+        alert("登録に失敗しました");
+      });
     }
+    
     window.onload = initLIFF;
   </script>
 </body>
