@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.094</h2>
+  <h2>レッスン予約アプリ0.095</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -37,7 +37,11 @@
           "Content-Type": "text/plain"
         }
       })
-      .then(res => res.text()) 
+      .then(res => res.json()) 
+      .then(data => {
+        const userId = data.userId;
+        console.log("取得したID:", userId);
+      })
       .then(msg => {
         console.log("登録結果:", msg);
         document.getElementById("username").innerText = displayName + " さん、ようこそ！";
