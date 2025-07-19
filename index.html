@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.08</h2>
+  <h2>レッスン予約アプリ0.09</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -48,7 +48,7 @@
         method: "POST",
         body: JSON.stringify(userData),
         headers: {
-          "Content-Type": "text/plain"
+          "Content-Type": "application/json"
         }
       })
       .then(response => {
