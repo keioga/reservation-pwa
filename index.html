@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.091</h2>
+  <h2>レッスン予約アプリ0.092</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -27,37 +27,22 @@
         return;
       }
       
-      const savedId = localStorage.getItem("appUserId");
-
-      if (savedId) {
-        console.log("登録済みID:", savedId);
-        proceedToReservation(); // ← 登録済みと判定して次へ
-        return;
-      }
-
       const profile = await liff.getProfile();
-
-      const userData = {
-        name: profile.displayName,         // LINE表示名（仮登録）
-        phone: "",                         // 電話番号は後で取得する場合は空欄
-        mode: "register"
-      };
-
+      const displayName = profile.displayName;
 
       fetch("https://script.google.com/macros/s/AKfycbx9P1-F2i7CWT201Vg96d6c2mxoOeuawLk4bTbe9V5EF_ObylcH6Nyp26WSoAJZ0j-Stg/exec", {
         method: "POST",
-        body: JSON.stringify(userData),
+        body: JSON.stringify({name:displayName}),
         headers: {
           "Content-Type": "application/json"
         }
       })
-      .then(res => res.json()) // GAS側でIDをJSONで返すようにする
-      .then(data => {
-        const issuedId = data.userId;
-        localStorage.setItem("appUserId", issuedId); // ← ローカル保存
-        console.log("新しいIDを保存:", issuedId);
-        proceedToReservation(); // ← 登録完了後に次へ
+      .then(res => res.text()) 
+      .then(msg => {
+        console.log("登録結果:", msg);
+        document.getElementById("username").innerText = displayName + " さん、ようこそ！";
       })
+      
       .catch(err => {
         console.error("登録エラー:", err);
         alert("登録に失敗しました");
