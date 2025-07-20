@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>スタディPCネット板宿校</h1>
-  <h2>レッスン予約アプリ0.099</h2>
+  <h2>レッスン予約アプリ0.0992</h2>
   <p id="username">ログイン情報を取得しています…</p>
 
   レッスンの予約が可能です。
@@ -30,6 +30,14 @@
       const profile = await liff.getProfile();
       const displayName = profile.displayName;
 
+      const saveId = localStorage.getItem("appUserId");
+      if (savedId){
+        console.log("登録済みID:", saveedId);
+        widow.location.href = "reserve.html";
+        return;         
+      }
+
+      // 未登録なので、登録処理を開始
       fetch("https://script.google.com/macros/s/AKfycbx9P1-F2i7CWT201Vg96d6c2mxoOeuawLk4bTbe9V5EF_ObylcH6Nyp26WSoAJZ0j-Stg/exec", {
         method: "POST",
         body: JSON.stringify({name:displayName}),
@@ -39,27 +47,14 @@
       })
       .then(res => res.json()) 
       .then(data => {
-        // const userId = data.userId;
-        // console.log("取得したID:", userId);
-
+        const userId = data.userId;
         //ローカルストレージに保存
-        // localStorage.setItem("appUserId", userId);
-        // console.log("IDをローカルに保存しました");
+        localStorage.setItem("appUserId", userId);
+        console.log("IDをローカルに保存しました");
 
-        // このIDを使って次の処理へ（例：予約画面に進む）
-        const userId = localStorage.getItem("appUserId");
-        if (userId) {
-          console.log("登録済みID:", savedId);
-          // proceedToReservation(savedId); // 登録済み → フォームスキップ
-        } else {
-          console.log("遷移します");
-          window.location.href = "register.html";
-        }
+        console.log("遷移します");
+        window.location.href = "register.html";
 
-      })
-      .then(msg => {
-        console.log("登録結果:", msg);
-        document.getElementById("username").innerText = displayName + " さん、ようこそ！";
       })
       
       .catch(err => {
