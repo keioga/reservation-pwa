@@ -6,9 +6,30 @@
   <title>予約フォーム</title>
 </head>
 <body>
-  <h2>予約フォーム</h2>
+  <h2>予約フォーム ver. 0.001</h2>
   <form id="reserveForm">
-    <label>日付: <input type="date" name="date" required></label><br>
+    <label>日付: <input type="date" name="date" id="datePicker" required></label><br>
+    
+    <div id="availability"></div>
+
+    <script>
+      const scriptURL = "https://script.google.com/macros/s/AKfycbw5uRkeQjsOClFGGLAQawtKRnX4PTV4ISK-fPEYfmxxRBg1dOxzpSKJ75bMeaNhrZHbWA/exec"; // ← ここにGASのURL
+
+      document.getElementById("datePicker").addEventListener("change", async function () {
+        const date = this.value;
+        const res = await fetch(`${scriptURL}?date=${date}`);
+        const reservedTimes = await res.json();
+
+        const allTimes = ["10:00", "11:00", "14:00", "15:00", "16:00"];
+        const available = allTimes.filter(t => !reservedTimes.includes(t));
+
+        document.getElementById("availability").innerHTML =
+          "<strong>空き時間:</strong> " + available.join(", ");
+      });
+    </script>
+
+
+
     <label>時間: <input type="time" name="time" required></label><br>
     <label>お名前: <input type="text" name="name" required></label><br>
     <button type="submit">予約する</button>
