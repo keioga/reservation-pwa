@@ -13,6 +13,12 @@
     <div id="availability"></div>
 
     <script>
+      document.getElementById("datePicker").addEventListener("change", function () {
+        console.log("選択された日付:", this.value);
+      });
+    </script>
+
+    <script>
       const scriptURL = "https://script.google.com/macros/s/AKfycbw5uRkeQjsOClFGGLAQawtKRnX4PTV4ISK-fPEYfmxxRBg1dOxzpSKJ75bMeaNhrZHbWA/exec"; // ← ここにGASのURL
 
       document.getElementById("datePicker").addEventListener("change", async function () {
