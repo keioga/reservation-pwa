@@ -6,7 +6,7 @@
   <title>予約フォーム</title>
 </head>
 <body>
-  <h2>予約フォーム ver. 0.003</h2>
+  <h2>予約フォーム ver. 0.004</h2>
   <form id="reserveForm">
     <label>日付: <input type="date" name="date" id="datePicker" required></label><br>
     
@@ -19,7 +19,7 @@
     </script>
 
     <script>
-      const scriptURL = "https://script.google.com/macros/s/AKfycbzm7bd74uzwNAFQ6_D5Eqf3D5qs0V32QDCgfmE_-FjWJOAG9QZuAGedq-z-D3aqcQcfvA/exec"; // ← ここにGASのURL
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzNF4Yq3qyWQMkRPmuIjf28tm__zzQOnhLz34qsHwKeLpyeozj48vAFk66ARMFeZqMRTQ/exec"; // ← ここにGASのURL
 
       document.getElementById("datePicker").addEventListener("change", async function () {
         const date = this.value;
