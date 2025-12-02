@@ -47,6 +47,6 @@ button:hover{
 }
 
 .fc-daygrid-day-frame {
-  min-height: 50px;   /* セルの最小高さ */
-  height: 50px;       /* 固定高さにしたい場合 */
+  min-height: 30px;   /* セルの最小高さ */
+  height: 30px;       /* 固定高さにしたい場合 */
 }
