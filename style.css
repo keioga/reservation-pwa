@@ -51,6 +51,11 @@ button:hover{
   height: 40px;       /* 固定高さにしたい場合 */
 }
 
+.fc-event-title {
+  font-size: 10px;   /* 好きなサイズに変更 */
+}
+
+
 /* スマホ用 (幅600px以下) */
 @media (max-width: 600px) {
   .fc-daygrid-day-frame {
