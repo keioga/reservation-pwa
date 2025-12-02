@@ -20,7 +20,9 @@ h1{
     
 }
 
-h2{
+h2#schoolname{
+    padding-top:0;
+    margin-top:0;
     text-align : right;
 }
 
@@ -47,8 +49,8 @@ button:hover{
 }
 
 .fc-daygrid-day-frame {
-  min-height: 50px;   /* セルの最小高さ */
-  height: 50px;       /* 固定高さにしたい場合 */
+  min-height: 55px;   /* セルの最小高さ */
+  height: 55px;       /* 固定高さにしたい場合 */
 }
 
 .fc-event-title {
@@ -61,7 +63,7 @@ button:hover{
 /* スマホ用 (幅600px以下) */
 @media (max-width: 600px) {
   .fc-daygrid-day-frame {
-    height: 50px;   /* スマホではさらに小さく */
+    height: 55px;   /* スマホではさらに小さく */
     overflow: hidden; /* イベントが多い場合はスクロールさせない */
   }
 }
