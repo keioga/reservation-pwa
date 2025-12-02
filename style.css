@@ -42,3 +42,8 @@ button:hover{
 #calendar{
     width:95%;
 }
+
+.fc-daygrid-day-frame {
+  min-height: 50px;   /* セルの最小高さ */
+  height: 50px;       /* 固定高さにしたい場合 */
+}
