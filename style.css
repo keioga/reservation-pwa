@@ -52,7 +52,9 @@ button:hover{
 }
 
 .fc-event-title {
-  font-size: 10px;   /* 好きなサイズに変更 */
+    margin-top:0px;
+    padding-top:0px;
+    font-size: 10px;   /* 好きなサイズに変更 */
 }
 
 
