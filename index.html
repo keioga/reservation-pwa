@@ -54,15 +54,15 @@
       ]
 
 
-      events: async function(fetchInfo, successCallback, failureCallback) {
-        const res = await fetch('/api/reservations'); // GASで作ったAPI
-        const data = await res.json();
-        successCallback(data.map(r => ({
-          title: r.name + '予約',
-          start: r.date,
-          color: 'red'
-        })));
-      }
+      // events: async function(fetchInfo, successCallback, failureCallback) {
+      //   const res = await fetch('/api/reservations'); // GASで作ったAPI
+      //   const data = await res.json();
+      //   successCallback(data.map(r => ({
+      //     title: r.name + '予約',
+      //     start: r.date,
+      //     color: 'red'
+      //   })));
+      // }
 
 
     });
