@@ -5,6 +5,38 @@ body{
     background : url('stuppy.png'); 
     background-repeat: no-repeat;
     background-position:bottom right;
-    background-size: 40%;
-    height: 600px;
+    background-size: 30%;
+    
+}
+
+h1{
+    text-align:center;
+    background-color: #ff0000;
+    color:#fff;
+}
+
+h2{
+    text-align : right;
+}
+
+button.res{
+    width : 150px;
+    height: 50px;
+    margin : 20px;
+    font-size: 12pt;
+    border-radius: 10px;
+    border-style: none;
+    background-color: #ffc9c9;   
+}
+
+button:hover{
+    background-color: #faa;
+}
+
+.resdiv{
+    text-align : center;
+}
+
+#calendar{
+    width:90%;
 }
