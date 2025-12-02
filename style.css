@@ -47,8 +47,8 @@ button:hover{
 }
 
 .fc-daygrid-day-frame {
-  min-height: 40px;   /* セルの最小高さ */
-  height: 40px;       /* 固定高さにしたい場合 */
+  min-height: 50px;   /* セルの最小高さ */
+  height: 50px;       /* 固定高さにしたい場合 */
 }
 
 .fc-event-title {
@@ -59,7 +59,7 @@ button:hover{
 /* スマホ用 (幅600px以下) */
 @media (max-width: 600px) {
   .fc-daygrid-day-frame {
-    height: 40px;   /* スマホではさらに小さく */
+    height: 50px;   /* スマホではさらに小さく */
     overflow: hidden; /* イベントが多い場合はスクロールさせない */
   }
 }
