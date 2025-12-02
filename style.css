@@ -54,7 +54,7 @@ button:hover{
 /* スマホ用 (幅600px以下) */
 @media (max-width: 600px) {
   .fc-daygrid-day-frame {
-    height: 25px;   /* スマホではさらに小さく */
+    height: 40px;   /* スマホではさらに小さく */
     overflow: hidden; /* イベントが多い場合はスクロールさせない */
   }
 }
