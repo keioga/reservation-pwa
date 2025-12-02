@@ -6,7 +6,7 @@ body{
     background-repeat: no-repeat;
     background-position:bottom right;
     background-size: 30%;
-    padding: 0;
+    padding-top: 1px; /* マージン相殺を防ぐための最小限の値 */
     margin:0;
 }
 
