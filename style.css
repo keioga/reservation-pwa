@@ -66,6 +66,9 @@ button:hover{
     height: 55px;   /* スマホではさらに小さく */
     overflow: hidden; /* イベントが多い場合はスクロールさせない */
   }
+
+
+
 }
 
 /* イベントの高さを固定する */
@@ -88,11 +91,11 @@ button:hover{
 /* bootstrapを読み込んだ時のスタイルを解除 */
 .fc-daygrid-day-number,
 .fc-col-header-cell a {
-  text-decoration: none;  /* 日付や曜日のリンク下線を消す */
+  text-decoration: none- !important ;  /* 日付や曜日のリンク下線を消す */
 }
 .fc a {
   color: inherit;         /* カレンダーのデフォルト色に戻す */
-  text-decoration: none;  /* 下線を消す */
+  text-decoration: none- !important ;  /* 下線を消す */
 }
 
 
