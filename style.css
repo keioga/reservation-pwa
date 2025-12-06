@@ -94,7 +94,7 @@ button:hover{
   text-decoration: none !important ;  /* 日付や曜日のリンク下線を消す */
 }
 .fc a {
-  color: inherit;         /* カレンダーのデフォルト色に戻す */
+  color: inherit !important;         /* カレンダーのデフォルト色に戻す */
   text-decoration: none !important;  /* 下線を消す */
 }
 
