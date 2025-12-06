@@ -67,3 +67,33 @@ button:hover{
     overflow: hidden; /* イベントが多い場合はスクロールさせない */
   }
 }
+
+/* イベントの高さを固定する */
+.fc-daygrid-event {
+    margin-top: -4px!important;   /* 上方向にずらす */
+    line-height: 1.2em;   /* 行の高さを抑える */
+    font-size: 12px;      /* 文字サイズを小さくする */
+    padding: 2px 4px;     /* 内側余白を減らす */
+    white-space: nowrap;  /* 折り返しを防ぐ */
+    overflow: hidden;     /* はみ出しを隠す */
+    text-overflow: ellipsis; /* 長い文字は「…」に */
+    padding:0;
+}
+
+.fc-daygrid-day-top {
+  margin-bottom: 0px !important;  /* 数字の下の余白を最小化 */
+}
+
+
+/* bootstrapを読み込んだ時のスタイルを解除 */
+.fc-daygrid-day-number,
+.fc-col-header-cell a {
+  text-decoration: none;  /* 日付や曜日のリンク下線を消す */
+}
+.fc a {
+  color: inherit;         /* カレンダーのデフォルト色に戻す */
+  text-decoration: none;  /* 下線を消す */
+}
+
+
+
