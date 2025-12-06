@@ -91,11 +91,11 @@ button:hover{
 /* bootstrapを読み込んだ時のスタイルを解除 */
 .fc-daygrid-day-number,
 .fc-col-header-cell a {
-  text-decoration: none- !important ;  /* 日付や曜日のリンク下線を消す */
+  text-decoration: none !important ;  /* 日付や曜日のリンク下線を消す */
 }
 .fc a {
   color: inherit;         /* カレンダーのデフォルト色に戻す */
-  text-decoration: none- !important ;  /* 下線を消す */
+  text-decoration: none !important;  /* 下線を消す */
 }
 
 
