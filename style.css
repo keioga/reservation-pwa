@@ -93,18 +93,6 @@ button:hover{
 .fc-col-header-cell a {
   text-decoration: none !important ;  /* 日付や曜日のリンク下線を消す */
 }
-.fc a {
-  color: inherit !important;         /* カレンダーのデフォルト色に戻す */
-  text-decoration: none !important;  /* 下線を消す */
-}
-
-.fc .fc-daygrid-day-number,
-.fc .fc-col-header-cell a,
-.fc .fc-daygrid-day a {
-  text-decoration: none !important;
-  color: inherit !important;
-}
-
 
 
 .fc a,
@@ -115,18 +103,3 @@ button:hover{
   color: inherit !important;
 }
 
-
-.fc a,
-.fc a:hover,
-.fc a:focus,
-.fc a:visited,
-.fc a:active {
-  text-decoration: none !important;
-  color: inherit !important;
-}
-
-
-#calendar .fc a {
-  text-decoration: none !important;
-  color: inherit !important;
-}
