@@ -114,3 +114,13 @@ button:hover{
   text-decoration: none !important;
   color: inherit !important;
 }
+
+
+.fc a,
+.fc a:hover,
+.fc a:focus,
+.fc a:visited,
+.fc a:active {
+  text-decoration: none !important;
+  color: inherit !important;
+}
