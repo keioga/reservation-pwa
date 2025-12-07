@@ -98,5 +98,12 @@ button:hover{
   text-decoration: none !important;  /* 下線を消す */
 }
 
+.fc .fc-daygrid-day-number,
+.fc .fc-col-header-cell a,
+.fc .fc-daygrid-day a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
 
 
