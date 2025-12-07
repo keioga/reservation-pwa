@@ -107,3 +107,10 @@ button:hover{
 
 
 
+.fc a,
+.fc a:hover,
+.fc a:focus,
+.fc a:visited {
+  text-decoration: none !important;
+  color: inherit !important;
+}
