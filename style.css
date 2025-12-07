@@ -103,3 +103,67 @@ button:hover{
   color: inherit !important;
 }
 
+
+
+
+/* これ以降は効いているかわからない */
+.fc a,
+.fc a:hover,
+.fc a:focus,
+.fc a:visited,
+.fc a:active {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+
+#calendar .fc a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+#calendar .fc a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.fc-daygrid-day-number {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.fc-daygrid-day-number,
+.fc-daygrid-day-number:hover,
+.fc-daygrid-day-number:focus,
+.fc-daygrid-day-number:active,
+.fc-daygrid-day-number:visited {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.fc-daygrid-day-number {
+  text-decoration: none !important;
+}
+
+.fc a.fc-daygrid-day-number {
+  text-decoration: none !important;
+}
+
+/* reboot.scss の a { text-decoration: underline; } を潰す */
+.fc a.fc-daygrid-day-number,
+.fc a.fc-daygrid-day-number:focus,
+.fc a.fc-daygrid-day-number:active {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+
+.fc-daygrid-day-number {
+  text-decoration: none !important;
+  color: inherit !important;
+  -webkit-text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+
