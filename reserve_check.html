@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>予約状況テスト</title>
+</head>
+<body>
+  <h1>予約状況</h1>
+  <pre id="output"></pre>
+
+  <script>
+    const apiKey = "AIzaSyAJ_JpjLtt5F7iPzYTt742BNPD_CX_uBos";  // 作成したAPIキー
+    const spreadsheetId = "1wxSK18h0Fns8iNOhBlcmfWnjnDHR7RhwCuKziN2nblM"; // スプレッドシートID
+    const range = "予約一覧!A1:D4"; // 読み取りたい範囲
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("output").textContent = JSON.stringify(data.values, null, 2);
+      })
+      .catch(err => {
+        document.getElementById("output").textContent = "エラー: " + err;
+      });
+  </script>
+</body>
+</html>
