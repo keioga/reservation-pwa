@@ -220,6 +220,14 @@
       // bootstrap.Modal.getInstance(document.getElementById('reservationModal')).hide();
       modal.hide();
 
+      // テスト用データ
+      const data = {
+        date: "2025/12/20",
+        time: "18:00",
+        name: "やまだ",
+        course: "I"
+      };
+
       fetch("https://script.google.com/macros/s/AKfycbz49vcGe_8hmXS6uvghjFszJnSrmeTCauYs__CkQdbauV0Em_co_R-Cm6p0DWPAtlB8YA/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
