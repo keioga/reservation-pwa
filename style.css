@@ -165,5 +165,6 @@ button:hover{
   -webkit-tap-highlight-color: transparent;
 }
 
-
-
+.form-check{
+  margin-left : 15px;
+}
