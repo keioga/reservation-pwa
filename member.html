@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json">
+  <title>会員登録アプリ</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="sw.js"></script>
+  
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet">
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body { font-family: Arial, Helvetica Neue, Helvetica, sans-serif; }
+    #calendar { max-width: 900px; margin: 0 auto; }
+  </style>
+
+</head>
+<body>
+  <h1>StudyPC.net</h1>
+  <h2 id="schoolname">板宿校</h2>
+
+  <h3 id="schoolname">会員登録</h3>
+
+  <div class="mb-3">
+    <label for="memberName" class="form-label">名前</label>
+    <input type="text" class="form-control" id="memberName">
+  </div>
+
+  <button class="res">予　約</button>
+  <button class="res">キャンセル</button>
+  </div>
+
+  <pre id="output"></pre>
+
+  <!-- <a href="reserve.html">予約ページへ進む</a> -->
+<!-- モーダル全体 -->
+<div class="modal fade" id="reservationModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- ヘッダ -->
+      <div class="modal-header">
+        <h5 class="modal-title">予約入力</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- 本文 -->
+      <div class="modal-body" id="reservationModalBody">
+        <form id="reservationForm">
+          <input type="hidden" id="reservationDate">
+          <div class="mb-3">
+            <label class="form-label">予約する時間を選んでください</label>
+            <div id="timeSlots"><!-- 動的に挿入される部分 --></div>
+          </div>
+          <div class="mb-3">
+            <label for="reservationName" class="form-label">名前</label>
+            <input type="text" class="form-control" id="reservationName">
+          </div>
+        </form>
+      </div>
+
+      <!-- フッタ -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="saveReservation">保存</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- FullCalendar部分 -->
+<div id="calendar"></div>  
+<script>
+  const apiKey = "AIzaSyAJ_JpjLtt5F7iPzYTt742BNPD_CX_uBos";
+  const spreadsheetId = "1wxSK18h0Fns8iNOhBlcmfWnjnDHR7RhwCuKziN2nblM";
+  const slotsSheetName = "予約枠"; // 予約枠シートの実名に合わせて変更
+  const slotsRange = `${slotsSheetName}!A:G`; // 日付, 時間, 最大枠数, 予約済み人数, 残り枠数, 状況, 許可コース
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const modalElement = document.getElementById('reservationModal');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'ja',
+
+      dateClick: function(info) {
+        // クリックした日付を保持
+        document.getElementById('reservationDate').value = info.dateStr;
+
+        // 予約枠シートから取得
+        fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${slotsRange}?key=${apiKey}`)
+          .then(response => response.json())
+          .then(data => {
+            const rows = data.values || [];
+            // ヘッダ行除外（先頭が見出しの場合）
+            const bodyRows = (rows[0] && rows[0][0] === "日付") ? rows.slice(1) : rows;
+
+            // 条件: 日付一致 & 残り枠数>0 & 状況=空き
+            // const available = bodyRows.filter(r =>
+            //   r[0] === info.dateStr && Number(r[4]) > 0 && r[5] === "空き"
+            // );
+
+            const available = bodyRows.filter(r => {
+              // // Sheetsの日付をDate型に変換
+              // const sheetDate = new Date(r[0]);
+              // // "YYYY-MM-DD" に整形
+              // const formatted = sheetDate.toISOString().split('T')[0];
+              // return formatted === info.dateStr && Number(r[4]) > 0 && r[5] === "空き";
+              const sheetDate = new Date(r[0]);
+              const formatted = sheetDate.getFullYear() + "-" +
+                String(sheetDate.getMonth() + 1).padStart(2, '0') + "-" +
+                String(sheetDate.getDate()).padStart(2, '0');
+
+              // return formatted === info.dateStr && Number(r[4]) > 0 && r[5] === "空き";
+              return formatted === info.dateStr;
+            });
+
+            // 時間順に並べ替え（HH:mm前提）
+            // available.sort((a, b) => a[1].localeCompare(b[1]));
+
+            // チェックボックス生成
+            let slotHtml = "";
+
+            slotHtml = info.dateStr;
+            slotHtml += `<br><br>`;
+            
+            if (available.length === 0) {
+              slotHtml = `<p class="text-muted">この日の空き枠はありません。</p>`;
+            } else {
+              available.forEach(r => {
+                const time = r[1];       // 時間
+                const remain = r[4];     // 残り枠数
+                const course = r[6];     // 許可コース
+
+                if ((r[4]<=2)&&(r[4]>=1)){
+                  slotHtml += `
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="reservationTime" value="${time}" id="time-${time}" disabled="true">
+                      <label class="form-check-label" for="time-${time}">
+                        ${time}　△（要確認）
+                      </label>
+                    </div>
+                  `;
+                }else if (r[4]>=3){
+                  slotHtml += `
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="reservationTime" value="${time}" id="time-${time}">
+                      <label class="form-check-label" for="time-${time}">
+                        ${time}　〇
+                      </label>
+                    </div>
+                  `;
+                }else{
+                  slotHtml += `
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="reservationTime" value="${time}" id="time-${time}" disabled="true">
+                      <label class="form-check-label" for="time-${time}">
+                        ${time}　×（満席）
+                      </label>
+                    </div>
+                  `;
+                }
+              });
+            }
+
+            document.getElementById("timeSlots").innerHTML = slotHtml;
+
+            // モーダル表示
+            // const modal = new bootstrap.Modal(document.getElementById('reservationModal'));
+            
+            modal.show();
+          })
+          .catch(err => {
+            document.getElementById("timeSlots").innerHTML =
+              `<p class="text-danger">枠情報の取得に失敗しました（${String(err)}）</p>`;
+            const modal = new bootstrap.Modal(document.getElementById('reservationModal'));
+            modal.show();
+          });
+      }
+    });
+    calendar.render();
+
+    // 保存ボタン（フロント反映のみの例）
+    document.getElementById('saveReservation').addEventListener('click', function() {
+      const date = document.getElementById('reservationDate').value;
+      const name = document.getElementById('reservationName').value.trim();
+      const selected = Array.from(document.querySelectorAll('input[name="reservationTime"]:checked'))
+        .map(cb => cb.value);
+
+      if (!name) {
+        alert("名前を入力してください。");
+        return;
+      }
+      if (selected.length === 0) {
+        alert("予約時間を選択してください。");
+        return;
+      }
+
+      // 選択時間をカレンダーに即時反映（視覚確認用）
+      selected.forEach(time => {
+        calendar.addEvent({
+          title: `${name}予約`,
+          start: `${date}T${time}`,
+          color: 'red'
+        });
+      });
+
+      // TODO: 実際の保存は「予約一覧シート」へ書き込み（GASやOAuthでPOST）
+      // 例：{ 日付: date, 時間帯: time, 予約者: name, コース: ... } を送信
+
+      // bootstrap.Modal.getInstance(document.getElementById('reservationModal')).hide();
+      modal.hide();
+
+      // テスト用データ
+      const data = {
+        date: `${date}`,
+        time: `${selected}`,
+        name: `${name}`,
+        course: "I"
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbz49vcGe_8hmXS6uvghjFszJnSrmeTCauYs__CkQdbauV0Em_co_R-Cm6p0DWPAtlB8YA/exec", {
+        method: "POST",
+        // headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "text/plain"},
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(msg => console.log("保存結果:", msg));
+
+
+    });
+  });
+
+
+  
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   var calendarEl = document.getElementById('calendar');
+  //   var calendar = new FullCalendar.Calendar(calendarEl, {
+  //     initialView: 'dayGridMonth',
+  //     expandRows: false,
+  //     height:'auto',
+  //     contentHeight:'auto',
+  //     locale:'ja',
+  //     titleFormat: { year: 'numeric', month: 'long' }, 
+  //     dayCellContent: function(arg) {
+  //       // arg.date は Date オブジェクト
+  //       return arg.date.getDate(); // 数字だけを返す
+  //     },
+  //     events: [
+  //       { title: '予約済', start: '2025-12-02', color: 'red' },
+  //       { title: '予約済', start: '2025-12-05', color: 'blue' }
+  //     ],
+  //     dateClick: function(info) {
+  //       // クリックした日付をモーダルに渡す
+  //       // document.getElementById('reservationDate').value = info.dateStr;
+  //       // var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
+  //       // modal.show();
+
+  //       document.getElementById('reservationDate').value = info.dateStr;
+
+  //       fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`)
+  //         .then(res => res.json())
+  //         .then(data => {
+  //           const rows = data.values;
+  //           const matches = rows.filter(r => r[0] === info.dateStr);
+
+  //           // 時間ごとにグループ化
+  //           const grouped = {};
+  //           matches.forEach(r => {
+  //             const time = r[1];
+  //             if (!grouped[time]) grouped[time] = [];
+  //             grouped[time].push(r);
+  //           });
+
+  //           // 最新行を採用してチェックボックス生成
+  //           let slotHtml = "";
+  //           Object.keys(grouped).forEach(time => {
+  //             const latest = grouped[time][grouped[time].length - 1];
+  //             const remain = latest[4];
+  //             const status = latest[5];
+  //             const course = latest[6];
+  //             const disabled = (Number(remain) === 0 || status !== "空き") ? "disabled" : "";
+
+  //             slotHtml += `
+  //               <div class="form-check">
+  //                 <input class="form-check-input" type="checkbox" name="reservationTime" value="${time}" ${disabled}>
+  //                 <label class="form-check-label">${time} （残り${remain}枠 / コース:${course}）</label>
+  //               </div>
+  //             `;
+  //           });
+
+  //           document.getElementById("timeSlots").innerHTML = slotHtml;
+
+  //           var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
+  //           modal.show();
+  //         });
+  //     }
+
+  //     }
+
+      
+  //     // events: async function(fetchInfo, successCallback, failureCallback) {
+  //     //   const res = await fetch('/api/reservations'); // GASで作ったAPI
+  //     //   const data = await res.json();
+  //     //   successCallback(data.map(r => ({
+  //     //     title: r.name + '予約',
+  //     //     start: r.date,
+  //     //     color: 'red'
+  //     //   })));
+  //     // }
+
+
+  //   });
+  //   calendar.render();
+
+  //   // 保存ボタン処理
+  // document.getElementById('saveReservation').addEventListener('click', function() {
+  //   var date = document.getElementById('reservationDate').value;
+  //   // var time = document.getElementById('reservationTime').value;
+  //   var name = document.getElementById('reservationName').value;
+
+
+  //   // // カレンダーに即反映
+  //   // calendar.addEvent({
+  //   //   // title: name + '予約',
+  //   //   title:'予約',
+  //   //   start: date + 'T' + time,
+  //   //   color: 'red'
+  //   // });
+
+  //     // 選択された時間をすべて取得
+  //   var times = [];
+  //   document.querySelectorAll('input[name="reservationTime"]:checked').forEach(function(checkbox) {
+  //     times.push(checkbox.value);
+  //   });
+
+  //   // 選択された時間ごとにイベントを追加
+  //   times.forEach(function(time) {
+  //     calendar.addEvent({
+  //       title: name + '予約',
+  //       start: date + 'T' + time,  // 例: "2025-12-06T09:00"
+  //       color: 'red'
+  //     });
+  //   });
+
+
+  //   // TODO: fetchでGAS APIに送信してスプレッドシート保存
+  //   // fetch('/api/saveReservation', { method:'POST', body: JSON.stringify({date,time,name}) })
+
+  //   bootstrap.Modal.getInstance(document.getElementById('reservationModal')).hide();
+  // });
+
+  // });
+</script>
+
+<div>
+<h3>今月の予約状況</h3>
+
+</div>
+
+  <footer>
+    <small>レッスン予約アプリ0.12</small>
+  </footer>
+  </body>
+</html>
