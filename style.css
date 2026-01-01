@@ -168,3 +168,9 @@ button:hover{
 .form-check{
   margin-left : 15px;
 }
+
+.memberSet{
+  margin-left : 50px;
+  margin-right : 50px;
+  width : 80%;
+}
