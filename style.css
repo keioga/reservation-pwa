@@ -174,3 +174,7 @@ button:hover{
   margin-right : 50px;
   width : 80%;
 }
+
+.memberSet label{
+  margin-top : 20px;
+}
