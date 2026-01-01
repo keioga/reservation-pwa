@@ -31,6 +31,13 @@
   <div class="mb-3">
     <label for="memberName" class="form-label">名前</label>
     <input type="text" class="form-control" id="memberName">
+
+    <label for="course" class="form-label">コース</label>
+    <select name="course" id="course">
+      <option value="一般コース">一般コース</option>
+      <option value="ジュニアコース">ジュニアコース</option>
+      <option value="マンツーマンコース">マンツーマンコース</option>
+    </select> 
   </div>
 
   <button class="res">予　約</button>
@@ -75,10 +82,6 @@
   </div>
 </div>
 
-
-
-
-<!-- FullCalendar部分 -->
 <div id="calendar"></div>  
 <script>
   const apiKey = "AIzaSyAJ_JpjLtt5F7iPzYTt742BNPD_CX_uBos";
@@ -245,124 +248,7 @@
 
 
   
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   var calendarEl = document.getElementById('calendar');
-  //   var calendar = new FullCalendar.Calendar(calendarEl, {
-  //     initialView: 'dayGridMonth',
-  //     expandRows: false,
-  //     height:'auto',
-  //     contentHeight:'auto',
-  //     locale:'ja',
-  //     titleFormat: { year: 'numeric', month: 'long' }, 
-  //     dayCellContent: function(arg) {
-  //       // arg.date は Date オブジェクト
-  //       return arg.date.getDate(); // 数字だけを返す
-  //     },
-  //     events: [
-  //       { title: '予約済', start: '2025-12-02', color: 'red' },
-  //       { title: '予約済', start: '2025-12-05', color: 'blue' }
-  //     ],
-  //     dateClick: function(info) {
-  //       // クリックした日付をモーダルに渡す
-  //       // document.getElementById('reservationDate').value = info.dateStr;
-  //       // var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
-  //       // modal.show();
 
-  //       document.getElementById('reservationDate').value = info.dateStr;
-
-  //       fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`)
-  //         .then(res => res.json())
-  //         .then(data => {
-  //           const rows = data.values;
-  //           const matches = rows.filter(r => r[0] === info.dateStr);
-
-  //           // 時間ごとにグループ化
-  //           const grouped = {};
-  //           matches.forEach(r => {
-  //             const time = r[1];
-  //             if (!grouped[time]) grouped[time] = [];
-  //             grouped[time].push(r);
-  //           });
-
-  //           // 最新行を採用してチェックボックス生成
-  //           let slotHtml = "";
-  //           Object.keys(grouped).forEach(time => {
-  //             const latest = grouped[time][grouped[time].length - 1];
-  //             const remain = latest[4];
-  //             const status = latest[5];
-  //             const course = latest[6];
-  //             const disabled = (Number(remain) === 0 || status !== "空き") ? "disabled" : "";
-
-  //             slotHtml += `
-  //               <div class="form-check">
-  //                 <input class="form-check-input" type="checkbox" name="reservationTime" value="${time}" ${disabled}>
-  //                 <label class="form-check-label">${time} （残り${remain}枠 / コース:${course}）</label>
-  //               </div>
-  //             `;
-  //           });
-
-  //           document.getElementById("timeSlots").innerHTML = slotHtml;
-
-  //           var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
-  //           modal.show();
-  //         });
-  //     }
-
-  //     }
-
-      
-  //     // events: async function(fetchInfo, successCallback, failureCallback) {
-  //     //   const res = await fetch('/api/reservations'); // GASで作ったAPI
-  //     //   const data = await res.json();
-  //     //   successCallback(data.map(r => ({
-  //     //     title: r.name + '予約',
-  //     //     start: r.date,
-  //     //     color: 'red'
-  //     //   })));
-  //     // }
-
-
-  //   });
-  //   calendar.render();
-
-  //   // 保存ボタン処理
-  // document.getElementById('saveReservation').addEventListener('click', function() {
-  //   var date = document.getElementById('reservationDate').value;
-  //   // var time = document.getElementById('reservationTime').value;
-  //   var name = document.getElementById('reservationName').value;
-
-
-  //   // // カレンダーに即反映
-  //   // calendar.addEvent({
-  //   //   // title: name + '予約',
-  //   //   title:'予約',
-  //   //   start: date + 'T' + time,
-  //   //   color: 'red'
-  //   // });
-
-  //     // 選択された時間をすべて取得
-  //   var times = [];
-  //   document.querySelectorAll('input[name="reservationTime"]:checked').forEach(function(checkbox) {
-  //     times.push(checkbox.value);
-  //   });
-
-  //   // 選択された時間ごとにイベントを追加
-  //   times.forEach(function(time) {
-  //     calendar.addEvent({
-  //       title: name + '予約',
-  //       start: date + 'T' + time,  // 例: "2025-12-06T09:00"
-  //       color: 'red'
-  //     });
-  //   });
-
-
-  //   // TODO: fetchでGAS APIに送信してスプレッドシート保存
-  //   // fetch('/api/saveReservation', { method:'POST', body: JSON.stringify({date,time,name}) })
-
-  //   bootstrap.Modal.getInstance(document.getElementById('reservationModal')).hide();
-  // });
-
-  // });
 </script>
 
 <div>
