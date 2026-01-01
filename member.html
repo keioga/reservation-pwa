@@ -39,6 +39,8 @@
       <option value="マンツーマンコース">マンツーマンコース</option>
     </select> 
 
+    <br>
+
     <label for="number" class="form-label">月回数</label>
     <select name="number" id="number">
       <option value="2">2</option>
@@ -67,22 +69,15 @@
   const slotsRange = `${slotsSheetName}!A:D`; // ID, 氏名, コース, 回数
   
   document.addEventListener('DOMContentLoaded', function() {
-    const modalElement = document.getElementById('reservationModal');
-    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-    const calendarEl = document.getElementById('calendar');
-    
+   
     // 保存ボタン（フロント反映のみの例）
     document.getElementById('saveMember').addEventListener('click', function() {
       const name = document.getElementById('memberName').value.trim();
-      const selected = Array.from(document.querySelectorAll('input[name="reservationTime"]:checked'))
-        .map(cb => cb.value);
+      const number = document.getElementById('number').value;
+      const course = document.getElementById('course').value;
 
       if (!name) {
         alert("名前を入力してください。");
-        return;
-      }
-      if (selected.length === 0) {
-        alert("予約時間を選択してください。");
         return;
       }
 
