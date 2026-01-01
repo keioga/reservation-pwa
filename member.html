@@ -81,27 +81,11 @@
         return;
       }
 
-      // 選択時間をカレンダーに即時反映（視覚確認用）
-      selected.forEach(time => {
-        calendar.addEvent({
-          title: `${name}予約`,
-          start: `${date}T${time}`,
-          color: 'red'
-        });
-      });
-
-      // TODO: 実際の保存は「予約一覧シート」へ書き込み（GASやOAuthでPOST）
-      // 例：{ 日付: date, 時間帯: time, 予約者: name, コース: ... } を送信
-
-      // bootstrap.Modal.getInstance(document.getElementById('reservationModal')).hide();
-      modal.hide();
-
-      // テスト用データ
       const data = {
-        date: `${date}`,
-        time: `${selected}`,
+        type: "MEMBER_REGIST",
         name: `${name}`,
-        course: "I"
+        number: `${number}`,
+        course: `${course}`
       };
 
       fetch("https://script.google.com/macros/s/AKfycbz49vcGe_8hmXS6uvghjFszJnSrmeTCauYs__CkQdbauV0Em_co_R-Cm6p0DWPAtlB8YA/exec", {
