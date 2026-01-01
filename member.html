@@ -38,9 +38,20 @@
       <option value="ジュニアコース">ジュニアコース</option>
       <option value="マンツーマンコース">マンツーマンコース</option>
     </select> 
+
+    <label for="number" class="form-label">月回数</label>
+    <select name="number" id="number">
+      <option value="2">2</option>
+      <option value="4">4</option>
+      <option value="8">8</option>
+      <option value="12">12</option>
+      <option value="16">16</option>
+      <option value="20">20</option>
+    </select> 
+    
   </div>
 
-  <button class="res">登　録</button>
+  <button class="res" id="saveMember">登　録</button>
   <button class="res">キャンセル</button>
   </div>
 
@@ -52,8 +63,8 @@
 <script>
   const apiKey = "AIzaSyAJ_JpjLtt5F7iPzYTt742BNPD_CX_uBos";
   const spreadsheetId = "1wxSK18h0Fns8iNOhBlcmfWnjnDHR7RhwCuKziN2nblM";
-  const slotsSheetName = "予約枠"; // 予約枠シートの実名に合わせて変更
-  const slotsRange = `${slotsSheetName}!A:G`; // 日付, 時間, 最大枠数, 予約済み人数, 残り枠数, 状況, 許可コース
+  const slotsSheetName = "会員情報"; 
+  const slotsRange = `${slotsSheetName}!A:D`; // ID, 氏名, コース, 回数
   
   document.addEventListener('DOMContentLoaded', function() {
     const modalElement = document.getElementById('reservationModal');
@@ -61,9 +72,8 @@
     const calendarEl = document.getElementById('calendar');
     
     // 保存ボタン（フロント反映のみの例）
-    document.getElementById('saveReservation').addEventListener('click', function() {
-      const date = document.getElementById('reservationDate').value;
-      const name = document.getElementById('reservationName').value.trim();
+    document.getElementById('saveMember').addEventListener('click', function() {
+      const name = document.getElementById('memberName').value.trim();
       const selected = Array.from(document.querySelectorAll('input[name="reservationTime"]:checked'))
         .map(cb => cb.value);
 
@@ -117,13 +127,8 @@
 
 </script>
 
-<div>
-<h3>今月の予約状況</h3>
-
-</div>
-
   <footer>
-    <small>レッスン予約アプリ0.12</small>
+    <small>会員登録アプリ0.12</small>
   </footer>
   </body>
 </html>
