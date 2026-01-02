@@ -178,13 +178,14 @@ button:hover{
 .memberSet label{
   margin-top : 20px;
 }
-
+ 
 #reserve-status{
   margin-left : 20px;
 }
 
 #reserve-status dl{
   white-space: nowrap;
+  clear: both;
 }
 #reserve-status dt{
   float: left;
