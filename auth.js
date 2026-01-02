@@ -18,6 +18,7 @@ function login() {
   const name = document.getElementById("input_name").value;
   const birth = document.getElementById("input_birth").value;
 
+  alert("TEST");
   fetch("GASのURL", {
     method: "POST",
     headers: { "Content-Type": "text/plain" },
