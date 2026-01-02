@@ -184,9 +184,12 @@ button:hover{
 }
 
 #reserve-status dl{
-  white-space: nowrap;
   clear: both;
 }
+#reserve-status dd{
+  white-space: nowrap;
+}
+
 #reserve-status dt{
   float: left;
 }
