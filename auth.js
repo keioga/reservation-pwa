@@ -8,6 +8,8 @@ window.onload = function() {
   } else {
     // 記憶がなければ：認証画面を表示
     document.getElementById("auth-section").style.display = "block";
+    document.getElementById("reserve-section").style.display = "none";
+    
   }
 };
 
