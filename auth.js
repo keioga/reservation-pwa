@@ -43,6 +43,11 @@ function login() {
   });
 }
 
+function logout() {
+  localStorage.clear(); // 保存情報を全削除
+  location.reload();    // ページを再読み込みして認証画面へ
+}
+
 function showReservationPage(id, name) {
   document.getElementById("auth-section").style.display = "none";
   document.getElementById("reserve-section").style.display = "block";
