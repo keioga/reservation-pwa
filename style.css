@@ -45,6 +45,7 @@ button:hover{
 
 #calendar{
     width:95%;
+    height : 350px;
 }
 
 .fc-daygrid-day-frame {
@@ -178,12 +179,10 @@ button:hover{
   margin-top : 20px;
 }
  
-#reserve-status{
-  margin-left : 20px;
-}
 
 #reserve-status dl{
   clear: both;
+  margin-left : 20px;
 }
 #reserve-status dd{
   white-space: nowrap;
