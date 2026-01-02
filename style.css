@@ -195,3 +195,7 @@ button:hover{
 footer{
   text-align : center;
 }
+
+#input_name,#input_birth{
+  width : 200px;
+}
