@@ -236,13 +236,14 @@
       // bootstrap.Modal.getInstance(document.getElementById('reservationModal')).hide();
       modal.hide();
 
-      // テスト用データ
+      // テスト用データ（あとでIDとコースを正しくセットする）
       const data = {
         type: "RESERVATION", 
         date: `${date}`,
         time: `${selected}`,
         name: `${name}`,
-        course: "I"
+        course: "I",
+        id : "K25K2407167"
       };
 
       fetch("https://script.google.com/macros/s/AKfycbz49vcGe_8hmXS6uvghjFszJnSrmeTCauYs__CkQdbauV0Em_co_R-Cm6p0DWPAtlB8YA/exec", {
