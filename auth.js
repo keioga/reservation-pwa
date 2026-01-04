@@ -18,7 +18,6 @@ function login() {
   const name = document.getElementById("input_name").value;
   const birth = document.getElementById("input_birth").value;
 
-  alert("TEST");
   fetch("https://script.google.com/macros/s/AKfycbz49vcGe_8hmXS6uvghjFszJnSrmeTCauYs__CkQdbauV0Em_co_R-Cm6p0DWPAtlB8YA/exec", {
     method: "POST",
     headers: { "Content-Type": "text/plain" },
